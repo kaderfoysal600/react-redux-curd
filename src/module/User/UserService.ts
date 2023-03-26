@@ -7,7 +7,7 @@ export const getUserList = async () => {
 };
 
 export const createUser = async (data: IUserForm) => {
-  const sData = JSON.stringify(data);
+  const sData = JSON.stringify({ ...data, ...{ userId: 1} });
   return await httpService.post<IUSer>(ApiConfig.user, sData);
 };
 

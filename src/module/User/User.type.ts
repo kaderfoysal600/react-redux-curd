@@ -2,6 +2,7 @@ export interface IUSer {
   id: number;
   title: string;
   body: string;
+  userId: number;
 }
 
 export enum ApiStatus {
@@ -23,6 +24,7 @@ export const defaultList: IUSer[] = [
     id: 1,
     title: "Kader Foysal",
     body: "kaderf113@gmail,com",
+    userId:1
   },
 ];
 
