@@ -22,8 +22,8 @@ const UserList = () => {
           <table>
             <tr>
               <th>Sr. No</th>
-              <th>Name</th>
-              <th>Email</th>
+              <th>Title</th>
+              <th>Body</th>
               <th>Action</th>
             </tr>
 
@@ -34,8 +34,8 @@ const UserList = () => {
                 return (
                   <tr>
                     <td>{index + 1}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
+                    <td>{user.title}</td>
+                    <td>{user.body}</td>
                     <td>
                       <div>
                         <input
@@ -76,10 +76,10 @@ const UserList = () => {
           >
             <div>
               <div>
-                <label> Name : {userDataToView.name}</label>
+                <label> Title : {userDataToView.title}</label>
               </div>
               <div>
-                <label> Email : {userDataToView.email}</label>
+                <label> Body : {userDataToView.body}</label>
               </div>
             </div>
           </Modal>

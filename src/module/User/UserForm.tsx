@@ -18,8 +18,8 @@ interface Iprops {
 
 const UserForm = (props: Iprops) => {
   const { isEditForm } = props;
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
   const params = useParams();
   const userIdToEdit = useRef(parseInt(params.id || ""));
@@ -30,8 +30,8 @@ const UserForm = (props: Iprops) => {
     if (isEditForm && userIdToEdit.current) {
       const userData = list.filter((x) => x.id === userIdToEdit.current);
       if (userData.length) {
-        setName(userData[0].name);
-        setEmail(userData[0].email);
+        setTitle(userData[0].title);
+        setBody(userData[0].body);
       }
     }
   }, [isEditForm]);
@@ -43,8 +43,8 @@ const UserForm = (props: Iprops) => {
   const dispatch = useAppDispatch();
   const onSubmitForm = (e: React.FormEvent) => {
     e.preventDefault();
-    const data: IUserForm = { name, email };
-    if (name && email) {
+    const data: IUserForm = { title, body };
+    if (title && body) {
       if (isEditForm) {
         const dirtyFormData: IUpdateUserActionProps = {
           id: userIdToEdit.current,
@@ -52,7 +52,7 @@ const UserForm = (props: Iprops) => {
         };
         dispatch(updateUserAction(dirtyFormData));
       } else {
-        const data: IUserForm = { name, email };
+        const data: IUserForm = { title, body };
         dispatch(createUserAction(data));
       }
     } else {
@@ -62,8 +62,8 @@ const UserForm = (props: Iprops) => {
 
   useEffect(() => {
     if (createUserFormState === ApiStatus.success) {
-      setName("");
-      setEmail("");
+      setTitle("");
+      setBody("");
       dispatch(resetCreateListStatus());
     }
   }, [createUserFormState]);
@@ -72,19 +72,19 @@ const UserForm = (props: Iprops) => {
       <div className="container">
         <form onSubmit={onSubmitForm}>
           <Input
-            label="Name"
-            value={name}
+            label="Title"
+            value={title}
             type="text"
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setName(e.target.value);
+              setTitle(e.target.value);
             }}
           />
           <Input
-            label="Email"
-            value={email}
-            type="email"
+            label="Body"
+            value={body}
+            type="text"
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setEmail(e.target.value);
+              setBody(e.target.value);
             }}
           />
           <button

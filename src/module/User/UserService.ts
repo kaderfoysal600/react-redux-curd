@@ -7,7 +7,8 @@ export const getUserList = async () => {
 };
 
 export const createUser = async (data: IUserForm) => {
-  return await httpService.post<IUSer>(ApiConfig.user, data);
+  const sData = JSON.stringify(data);
+  return await httpService.post<IUSer>(ApiConfig.user, sData);
 };
 
 export const deleteUserApi = async (id: number) => {
