@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toastError, toastSuccess } from "../../components/ToastifyConfig";
+import { addNewItem } from "../../utils/modifier";
 import {
   ApiStatus,
   IUpdateUserActionProps,
@@ -32,6 +33,7 @@ export const createUserAction = createAsyncThunk(
   "user/createUserAction",
   async (data: IUserForm) => {
     const response = await createUser(data);
+    console.log(response.data);
     return response.data;
   }
 );
@@ -75,8 +77,9 @@ const userSlice = createSlice({
     builder.addCase(createUserAction.pending, (state) => {
       state.createUserFormState = ApiStatus.loading;
     });
-    builder.addCase(createUserAction.fulfilled, (state) => {
+    builder.addCase(createUserAction.fulfilled, (state, action) => {
       state.createUserFormState = ApiStatus.success;
+      state.list = addNewItem(state.list, action.payload);
       toastSuccess("User created");
     });
     builder.addCase(createUserAction.rejected, (state) => {

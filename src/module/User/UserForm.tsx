@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
@@ -18,8 +18,12 @@ interface Iprops {
 
 const UserForm = (props: Iprops) => {
   const { isEditForm } = props;
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const navigator = useNavigate();
+  const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
+  const [id, setId] = useState(1);
+  const [userId, setuserId] = useState(1);
+  const [posts, setPost] = useState();
 
   const params = useParams();
   const userIdToEdit = useRef(parseInt(params.id || ""));
@@ -30,8 +34,8 @@ const UserForm = (props: Iprops) => {
     if (isEditForm && userIdToEdit.current) {
       const userData = list.filter((x) => x.id === userIdToEdit.current);
       if (userData.length) {
-        setTitle(userData[0].title);
-        setBody(userData[0].body);
+        setName(userData[0].name);
+        setUserName(userData[0].username);
       }
     }
   }, [isEditForm]);
@@ -43,8 +47,8 @@ const UserForm = (props: Iprops) => {
   const dispatch = useAppDispatch();
   const onSubmitForm = (e: React.FormEvent) => {
     e.preventDefault();
-    const data: IUserForm = { title, body };
-    if (title && body) {
+    const data: IUserForm = { name, username, id };
+    if (name && username) {
       if (isEditForm) {
         const dirtyFormData: IUpdateUserActionProps = {
           id: userIdToEdit.current,
@@ -52,8 +56,10 @@ const UserForm = (props: Iprops) => {
         };
         dispatch(updateUserAction(dirtyFormData));
       } else {
-        const data: IUserForm = { title, body };
-        dispatch(createUserAction(data));
+        const data1 = {
+          ...data,
+        };
+        dispatch(createUserAction(data1));
       }
     } else {
       toastError("please fill the required filled");
@@ -62,8 +68,8 @@ const UserForm = (props: Iprops) => {
 
   useEffect(() => {
     if (createUserFormState === ApiStatus.success) {
-      setTitle("");
-      setBody("");
+      setName("");
+      setUserName("");
       dispatch(resetCreateListStatus());
     }
   }, [createUserFormState]);
@@ -72,19 +78,19 @@ const UserForm = (props: Iprops) => {
       <div className="container">
         <form onSubmit={onSubmitForm}>
           <Input
-            label="Title"
-            value={title}
+            label="Name"
+            value={name}
             type="text"
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setTitle(e.target.value);
+              setName(e.target.value);
             }}
           />
           <Input
-            label="Body"
-            value={body}
+            label="username"
+            value={username}
             type="text"
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setBody(e.target.value);
+              setUserName(e.target.value);
             }}
           />
           <button

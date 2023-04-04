@@ -14,7 +14,7 @@ const UserList = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getUserListAction());
-  }, []);
+  }, [dispatch]);
   return (
     <div>
       <UserListContainer>
@@ -22,8 +22,8 @@ const UserList = () => {
           <table>
             <tr>
               <th>Sr. No</th>
-              <th>Title</th>
-              <th>Body</th>
+              <th>Name</th>
+              <th>UserName</th>
               <th>Action</th>
             </tr>
 
@@ -34,8 +34,8 @@ const UserList = () => {
                 return (
                   <tr>
                     <td>{index + 1}</td>
-                    <td>{user.title}</td>
-                    <td>{user.body}</td>
+                    <td>{user.name}</td>
+                    <td>{user.username}</td>
                     <td>
                       <div>
                         <input
@@ -76,10 +76,10 @@ const UserList = () => {
           >
             <div>
               <div>
-                <label> Title : {userDataToView.title}</label>
+                <label> Title : {userDataToView.name}</label>
               </div>
               <div>
-                <label> Body : {userDataToView.body}</label>
+                <label> Body : {userDataToView.username}</label>
               </div>
             </div>
           </Modal>

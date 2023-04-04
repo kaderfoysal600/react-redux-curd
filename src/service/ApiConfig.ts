@@ -4,7 +4,7 @@ const baseUrl = "https://jsonplaceholder.typicode.com/";
 
 const ApiConfig = {
   // user: `${baseUrl}user`,
-  user: `${baseUrl}posts`,
+  user: `${baseUrl}Users`,
 };
 
 export default ApiConfig;

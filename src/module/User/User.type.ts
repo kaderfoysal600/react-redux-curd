@@ -1,8 +1,7 @@
 export interface IUSer {
   id: number;
-  title: string;
-  body: string;
-  userId: number;
+  name: string;
+  username: string;
 }
 
 export enum ApiStatus {
@@ -22,15 +21,15 @@ export interface IUserState {
 export const defaultList: IUSer[] = [
   {
     id: 1,
-    title: "Kader Foysal",
-    body: "kaderf113@gmail,com",
-    userId:1
+    name: "Kader Foysal",
+    username: "kaderf113@gmail,com",
   },
 ];
 
 export interface IUserForm {
-  title: string;
-  body: string;
+  id: number;
+  name: string;
+  username: string;
 }
 
 export interface IUpdateUserActionProps {
