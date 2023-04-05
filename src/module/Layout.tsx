@@ -2,17 +2,17 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Nav from "./Nav";
 import UserForm from "./User/UserForm";
-
 const Layout = () => {
+
   return (
     <>
       <LayoutContainer>
-        <UserForm isEditForm={false} />
         <div className="header">
           <div className="container">
             <h2>Welcome</h2>
           </div>
         </div>
+        <UserForm isEditForm={false} />
         <Nav />
         <main>
           <Outlet />

@@ -8,11 +8,6 @@ const Nav = () => {
       to: "/",
       value: "Dashboard",
     },
-    {
-      id: 2,
-      to: "/add",
-      value: "Add User",
-    },
   ];
   return (
     <>

@@ -5,40 +5,21 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { Input } from "../../components/input";
 import { toastError } from "../../components/ToastifyConfig";
-import { ApiStatus, IUpdateUserActionProps, IUserForm } from "./User.type";
-import {
-  createUserAction,
-  resetCreateListStatus,
-  updateUserAction,
-} from "./UserSlice";
+import { ApiStatus, IUserForm } from "./User.type";
+import { createUserAction, resetCreateListStatus } from "./UserSlice";
 
 interface Iprops {
   isEditForm: boolean;
 }
 
 const UserForm = (props: Iprops) => {
-  const { isEditForm } = props;
-  const navigator = useNavigate();
   const [name, setName] = useState("");
   const [username, setUserName] = useState("");
   const [id, setId] = useState(1);
-  const [userId, setuserId] = useState(1);
-  const [posts, setPost] = useState();
 
   const params = useParams();
-  const userIdToEdit = useRef(parseInt(params.id || ""));
 
   const { list } = useAppSelector((state: RootState) => state.user);
-
-  useEffect(() => {
-    if (isEditForm && userIdToEdit.current) {
-      const userData = list.filter((x) => x.id === userIdToEdit.current);
-      if (userData.length) {
-        setName(userData[0].name);
-        setUserName(userData[0].username);
-      }
-    }
-  }, [isEditForm]);
 
   const { createUserFormState, updateUserFormStatus } = useAppSelector(
     (state: RootState) => state.user
@@ -49,18 +30,10 @@ const UserForm = (props: Iprops) => {
     e.preventDefault();
     const data: IUserForm = { name, username, id };
     if (name && username) {
-      if (isEditForm) {
-        const dirtyFormData: IUpdateUserActionProps = {
-          id: userIdToEdit.current,
-          data,
-        };
-        dispatch(updateUserAction(dirtyFormData));
-      } else {
-        const data1 = {
-          ...data,
-        };
-        dispatch(createUserAction(data1));
-      }
+      const data1 = {
+        ...data,
+      };
+      dispatch(createUserAction(data1));
     } else {
       toastError("please fill the required filled");
     }
@@ -95,12 +68,10 @@ const UserForm = (props: Iprops) => {
           />
           <button
             type="submit"
-            disabled={
-              createUserFormState === ApiStatus.loading ||
-              updateUserFormStatus === ApiStatus.loading
-            }
+            className="create"
+            disabled={createUserFormState === ApiStatus.loading}
           >
-            {isEditForm ? "Update" : "Create"}
+            Create
           </button>
         </form>
       </div>
@@ -125,6 +96,17 @@ const UserFormContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .create {
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 8px;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 16px;
+    background-color: #B35AC5;
   }
 `;
 export default UserForm;

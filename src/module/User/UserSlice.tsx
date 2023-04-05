@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toastError, toastSuccess } from "../../components/ToastifyConfig";
-import { addNewItem } from "../../utils/modifier";
+import { addNewItem, updateItem } from "../../utils/modifier";
 import {
   ApiStatus,
+  IUSer,
   IUpdateUserActionProps,
   IUserForm,
   IUserState,
@@ -48,8 +49,8 @@ export const deleteUserAction = createAsyncThunk(
 
 export const updateUserAction = createAsyncThunk(
   "user/updateUserAction",
-  async ({ id, data }: IUpdateUserActionProps) => {
-    const response = await updateUserApi(id, data);
+  async (user: any) => {
+    const response = await updateUserApi(user);
     return response.data;
   }
 );
@@ -94,8 +95,9 @@ const userSlice = createSlice({
     builder.addCase(updateUserAction.pending, (state) => {
       state.updateUserFormStatus = ApiStatus.loading;
     });
-    builder.addCase(updateUserAction.fulfilled, (state) => {
+    builder.addCase(updateUserAction.fulfilled, (state, action) => {
       state.updateUserFormStatus = ApiStatus.ideal;
+      state.list = updateItem(state.list, action.payload);
       toastSuccess("User updated");
     });
     builder.addCase(updateUserAction.rejected, (state) => {

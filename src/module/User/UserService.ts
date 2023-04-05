@@ -26,7 +26,7 @@ export const deleteUserApi = async (id: number) => {
   return await httpService.delete(url);
 };
 
-export const updateUserApi = async (id: number, data: IUserForm) => {
-  const url = `${ApiConfig.user}/${id}`;
-  return await httpService.put(url, data);
+export const updateUserApi = async (user: any) => {
+  const url = `${ApiConfig.user}/${user.id}`;
+  return await httpService.put(url, user);
 };

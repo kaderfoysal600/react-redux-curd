@@ -6,6 +6,7 @@ import { RootState } from "../../app/store";
 import { Modal } from "../../components/modal";
 import { ApiStatus, IUSer } from "./User.type";
 import { deleteUserAction, getUserListAction } from "./UserSlice";
+import { EditUser } from "./editUserser";
 
 const UserList = () => {
   const [userDataToView, setUserDataToView] = useState<IUSer | null>(null);
@@ -38,22 +39,18 @@ const UserList = () => {
                     <td>{user.username}</td>
                     <td>
                       <div>
-                        <input
-                          type="button"
-                          value="Edit"
-                          onClick={() => {
-                            navigator(`/edit/${user.id}`);
-                          }}
-                        />
+                        <EditUser key={user.id} user={user} />
                         <input
                           type="button"
                           value="View"
+                          className="view"
                           onClick={() => {
                             setUserDataToView(user);
                           }}
                         />
                         <input
                           type="button"
+                          className="delete"
                           value="Delete"
                           onClick={() => {
                             dispatch(deleteUserAction(user.id));
@@ -76,10 +73,10 @@ const UserList = () => {
           >
             <div>
               <div>
-                <label> Title : {userDataToView.name}</label>
+                <label> Name : {userDataToView.name}</label>
               </div>
               <div>
-                <label> Body : {userDataToView.username}</label>
+                <label> User Name : {userDataToView.username}</label>
               </div>
             </div>
           </Modal>
@@ -106,6 +103,23 @@ const UserListContainer = styled.div`
 
   tr:nth-child(even) {
     background-color: #dddddd;
+  }
+  input[type="button"] {
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 8px;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  .delete {
+    background-color: #e65b65;
+    margin-left: 5px;
+  }
+
+  .view {
+    background-color: #00a82f;
   }
 `;
 export default UserList;
